@@ -1,11 +1,12 @@
 //
 //    FILE: dht.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.5
+// VERSION: 0.2.6
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
-//     URL: https://github.com/RobTillaart/Arduino/tree/master/libraries/DHTstable
+//     URL: https://github.com/RobTillaart/DHTstable
 //
 // HISTORY:
+// 0.2.6  2020-07-20 update URL in .cpp
 // 0.2.5  2020-06-30 move to own repository; update headers mainly.
 // 0.2.4  2018-04-03 add get-/setDisableIRQ(bool b)
 // 0.2.3  2018-02-21 change #defines in const int to enforce return types.

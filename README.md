@@ -8,6 +8,7 @@ The DHTstable library is a "frozen" version of the DHTlib.
 This version is stable for both ARM and AVR.
 
 0.2.5 is a migration to its own repository.
+0.2.6 fixed URL to new repro
 
 The latest developments for the DHT sensors are done in https://github.com/RobTillaart/DHTNEW
 which is also tested on an ESP32.
