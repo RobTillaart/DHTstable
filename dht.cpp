@@ -90,20 +90,31 @@ int dht::read(uint8_t pin)
         return rv; // propagate error value
     }
 
-    // CONVERT AND STORE
-    humidity = word(bits[0], bits[1]) * 0.1;
-    temperature = word(bits[2] & 0x7F, bits[3]) * 0.1;
-    if (bits[2] & 0x80)  // negative temperature
-    {
-        temperature = -temperature;
-    }
-
     // TEST CHECKSUM
+    /* Test first, as the code below is manipulating bits[2] */
     uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
     if (bits[4] != sum)
     {
         return DHTLIB_ERROR_CHECKSUM;
     }
+
+    // CONVERT AND STORE
+    humidity = word(bits[0], bits[1]) * 0.1;
+    /*
+     * in the degree range from +1 to -1, the module sets not always the 0x80 bit
+     * this lead to very high numbers and therefore invalid temp values
+     * this "Hack" corrects that by setting the bit manually when the 0x40 bit is set 
+     * (as it was during all manual tests).
+     * => the resulting temperature could only jump in the range [-1 .. 1] and not 
+     *    to 3276.* as before.
+     */
+    if (bits[2] & 0x40) 
+    {
+        bits[2] |= 0x80;
+    }    
+    int16_t tmp = (bits[2] << 8 | bits[3]);
+    temperature = tmp * 0.1;
+
     return DHTLIB_OK;
 }
 
