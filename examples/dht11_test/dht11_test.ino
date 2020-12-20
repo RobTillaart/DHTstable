@@ -8,7 +8,7 @@
 // HISTORY:
 // 0.1.2  add URL in header
 
-#include <dht.h>
+#include "..\dhtstable\dht.h"
 
 dht DHT;
 

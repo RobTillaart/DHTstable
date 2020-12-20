@@ -38,7 +38,7 @@ unittest(test_constructor)
 {
   dht dht;
 
-  fprintf(stderr, DHT_LIB_VERSION);
+  fprintf(stderr, "%s\n", DHT_LIB_VERSION);
 
   assertFalse(dht.getDisableIRQ());
 
