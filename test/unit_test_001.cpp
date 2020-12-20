@@ -39,13 +39,18 @@ unittest(test_constructor)
   dht dht;
 
   fprintf(stderr, "%s\n", DHT_LIB_VERSION);
-
   assertFalse(dht.getDisableIRQ());
 
   dht.setDisableIRQ(true);
   assertTrue(dht.getDisableIRQ());
 
   dht.setDisableIRQ(false);
+  assertFalse(dht.getDisableIRQ());
+
+  fprintf(stderr, "reset() IRQ flag\n");
+  dht.setDisableIRQ(true);
+  assertTrue(dht.getDisableIRQ());
+  dht.reset();
   assertFalse(dht.getDisableIRQ());
 }
 
@@ -54,13 +59,21 @@ unittest(test_read)
 {
   dht dht;
 
+  assertEqual(0, dht.getHumidity());
+  assertEqual(0, dht.getTemperature());
+  
   assertEqual(-2, dht.read(4));  // DHTLIB_ERROR_TIMEOUT
-  assertEqual(-999, dht.humidity);
-  assertEqual(-999, dht.temperature);
+  assertEqual(-999, dht.getHumidity());
+  assertEqual(-999, dht.getTemperature());
 
+  fprintf(stderr, "reset()\n");
+  dht.reset();
+  assertEqual(0, dht.getHumidity());
+  assertEqual(0, dht.getTemperature());
+  
   assertEqual(-2, dht.read11(5));  // DHTLIB_ERROR_TIMEOUT
-  assertEqual(-999, dht.humidity);
-  assertEqual(-999, dht.temperature);
+  assertEqual(-999, dht.getHumidity());
+  assertEqual(-999, dht.getTemperature());
 }
 
 
