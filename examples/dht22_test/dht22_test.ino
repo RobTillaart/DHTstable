@@ -29,7 +29,7 @@ struct
     uint32_t ack_l;
     uint32_t ack_h;
     uint32_t unknown;
-} stat = { 0,0,0,0,0,0,0,0};
+} counter = { 0,0,0,0,0,0,0,0};
 
 void setup()
 {
@@ -50,23 +50,23 @@ void loop()
     int chk = DHT.read22(DHT22_PIN);
     uint32_t stop = micros();
 
-    stat.total++;
+    counter.total++;
     switch (chk)
     {
     case DHTLIB_OK:
-        stat.ok++;
+        counter.ok++;
         Serial.print("OK,\t");
         break;
     case DHTLIB_ERROR_CHECKSUM:
-        stat.crc_error++;
+        counter.crc_error++;
         Serial.print("Checksum error,\t");
         break;
     case DHTLIB_ERROR_TIMEOUT:
-        stat.time_out++;
+        counter.time_out++;
         Serial.print("Time out error,\t");
         break;
     default:
-        stat.unknown++;
+        counter.unknown++;
         Serial.print("Unknown error,\t");
         break;
     }
@@ -78,24 +78,24 @@ void loop()
     Serial.print(stop - start);
     Serial.println();
 
-    if (stat.total % 20 == 0)
+    if (counter.total % 20 == 0)
     {
         Serial.println("\nTOT\tOK\tCRC\tTO\tUNK");
-        Serial.print(stat.total);
+        Serial.print(counter.total);
         Serial.print("\t");
-        Serial.print(stat.ok);
+        Serial.print(counter.ok);
         Serial.print("\t");
-        Serial.print(stat.crc_error);
+        Serial.print(counter.crc_error);
         Serial.print("\t");
-        Serial.print(stat.time_out);
+        Serial.print(counter.time_out);
         Serial.print("\t");
-        Serial.print(stat.connect);
+        Serial.print(counter.connect);
         Serial.print("\t");
-        Serial.print(stat.ack_l);
+        Serial.print(counter.ack_l);
         Serial.print("\t");
-        Serial.print(stat.ack_h);
+        Serial.print(counter.ack_h);
         Serial.print("\t");
-        Serial.print(stat.unknown);
+        Serial.print(counter.unknown);
         Serial.println("\n");
     }
     delay(2000);
