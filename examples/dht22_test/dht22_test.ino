@@ -41,7 +41,7 @@ void setup()
     Serial.begin(115200);
     Serial.println(__FILE__);
     Serial.print("LIBRARY VERSION: ");
-    Serial.println(DHT_LIB_VERSION);
+    Serial.println(DHTSTABLE_LIB_VERSION);
     Serial.println();
     Serial.println("Type,\tstatus,\tHumidity (%),\tTemperature (C)\tTime (us)");
 }
