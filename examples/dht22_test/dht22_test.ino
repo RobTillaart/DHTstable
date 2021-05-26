@@ -1,24 +1,28 @@
 //
 //    FILE: dht22_test.ino
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.0
+// VERSION: 1.0.0
 // PURPOSE: DHT library test sketch for DHT22 && Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
 // HISTORY:
-// 0.2.0   use getHumidity() and getTemperature()
-// 0.1.4   add URL in header
-// 0.1.03  extended stats for all errors
-// 0.1.02  added counters for error-regression testing.
-// 0.1.01  ?
-// 0.1.00  initial version
+//  1.0.0   2021-05-26  class name changed to DHTStable  (breaking change)
+//
+//  0.2.0   use getHumidity() and getTemperature()
+//  0.1.4   add URL in header
+//  0.1.03  extended stats for all errors
+//  0.1.02  added counters for error-regression testing.
+//  0.1.01  ?
+//  0.1.00  initial version
 //
 
-#include "dht.h"
 
-dht DHT;
+#include "DHTStable.h"
+
+DHTStable DHT;
 
 #define DHT22_PIN 5
+
 
 struct
 {
@@ -104,4 +108,4 @@ void loop()
     delay(2000);
 }
 
-// END OF FILE
+// -- END OF FILE --

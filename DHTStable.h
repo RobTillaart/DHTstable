@@ -1,25 +1,19 @@
+#pragma once
 //
-//    FILE: dht.h
+//    FILE: DHTStable.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.9
+// VERSION: 1.0.0
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
-// HISTORY:
-// see dht.cpp file
+//  HISTORY:
+//  see dht.cpp file
 //
 
-#ifndef dht_h
-#define dht_h
 
-#if ARDUINO < 100
-#include <WProgram.h>
-#else
-#include <Arduino.h>
-#endif
+#include "Arduino.h"
 
-
-#define DHT_LIB_VERSION           (F("0.2.9 - dhtstable"))
+#define DHTSTABLE_LIB_VERSION           (F("1.0.0 - DHTStable"))
 
 
 const int DHTLIB_OK              = 0;
@@ -30,6 +24,7 @@ const int DHTLIB_INVALID_VALUE   = -999;
 const int DHTLIB_DHT11_WAKEUP    = 18;
 const int DHTLIB_DHT_WAKEUP      = 1;
 
+
 // max timeout is 100usec.
 // For a 16Mhz proc that is max 1600 clock cycles
 // loops using TIMEOUT use at least 4 clock cycli
@@ -38,10 +33,10 @@ const int DHTLIB_DHT_WAKEUP      = 1;
 const int DHTLIB_TIMEOUT = (F_CPU/40000);
 
 
-class dht
+class DHTStable
 {
 public:
-    dht();
+    DHTStable();
 
     void reset();
 
@@ -62,13 +57,9 @@ public:
     inline int read2320(uint8_t pin) { return read(pin); };   //.ok
     inline int read2322(uint8_t pin) { return read(pin); };   // ok
 
-    // preferred interface.
-    float getHumidity()    { return humidity; };
-    float getTemperature() { return temperature; };
-
-    // write access will be obsolete in future version 
-    float humidity;
-    float temperature;
+    // read values from cache, call read() to refresh!
+    float getHumidity()    { return _humidity; };
+    float getTemperature() { return _temperature; };
 
     bool  getDisableIRQ()              { return _disableIRQ; };
     void  setDisableIRQ(bool b )       { _disableIRQ = b; };
@@ -77,9 +68,9 @@ private:
     uint8_t bits[5];  // buffer to receive data
     int     _readSensor(uint8_t pin, uint8_t wakeupDelay);
     bool    _disableIRQ = false;
+    float   _humidity;
+    float   _temperature;
 };
 
-#endif
 
-
-// END OF FILE
+// -- END OF FILE --
