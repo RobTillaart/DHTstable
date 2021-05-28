@@ -1,3 +1,6 @@
+
+name: Arduino-lint
+
 on: [push, pull_request]
 jobs:
   lint:
@@ -8,3 +11,4 @@ jobs:
         with:
           library-manager: update
           compliance: strict
+
