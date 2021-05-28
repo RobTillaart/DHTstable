@@ -1,13 +1,18 @@
 //
-//    FILE: dht.cpp
+//    FILE: DHTStable.cpp
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.2.9
 // PURPOSE: DHT Temperature & Humidity Sensor library for Arduino
 //     URL: https://github.com/RobTillaart/DHTstable
 //
 //  HISTORY:
+
+//  1.0.0   2021-05-26  rename files and class to DHTStable to fix incompatible flag.
+//                      changed temperature and humidity to private
+//                      breaking change!
+
 //  0.2.9   2021-02-27  fix URL in library.json
-//  0.2.8   2021-02-01  fix negative temperature (from dhtnew)
+//  0.2.8   2021-02-01  fix negative temperature (from DHTStablenew)
 //  0.2.7   2020-12-20  add arduino-CI, unit test, 
 //                      reset(), getTemperature(), getHumidity()
 //  0.2.6   2020-07-20  update URL in .cpp
@@ -37,30 +42,32 @@
 //
 
 
-#include "dht.h"
+#include "DHTStable.h"
 
 
 /////////////////////////////////////////////////////
 //
 // PUBLIC
 //
-dht::dht()
+DHTStable::DHTStable()
 {
   reset();
 }
 
-void dht::reset()
+
+void DHTStable::reset()
 {
-  temperature = 0.0;
-  humidity = 0.0;
+  _temperature = 0.0;
+  _humidity = 0.0;
   _disableIRQ = false;
 }
+
 
 // return values:
 // DHTLIB_OK
 // DHTLIB_ERROR_CHECKSUM
 // DHTLIB_ERROR_TIMEOUT
-int dht::read11(uint8_t pin)
+int DHTStable::read11(uint8_t pin)
 {
     // READ VALUES
     if (_disableIRQ) noInterrupts();
@@ -68,17 +75,17 @@ int dht::read11(uint8_t pin)
     if (_disableIRQ) interrupts();
     if (rv != DHTLIB_OK)
     {
-        humidity    = DHTLIB_INVALID_VALUE; // invalid value, or is NaN prefered?
-        temperature = DHTLIB_INVALID_VALUE; // invalid value
+        _humidity    = DHTLIB_INVALID_VALUE; // invalid value, or is NaN prefered?
+        _temperature = DHTLIB_INVALID_VALUE; // invalid value
         return rv;
     }
 
     // CONVERT AND STORE
-    humidity = bits[0] + bits[1] * 0.1;
-    temperature = (bits[2] & 0x7F) + bits[3] * 0.1;
+    _humidity = bits[0] + bits[1] * 0.1;
+    _temperature = (bits[2] & 0x7F) + bits[3] * 0.1;
     if (bits[2] & 0x80)  // negative temperature
     {
-        temperature = -temperature;
+        _temperature = -_temperature;
     }
 
     // TEST CHECKSUM
@@ -90,11 +97,12 @@ int dht::read11(uint8_t pin)
     return DHTLIB_OK;
 }
 
+
 // return values:
 // DHTLIB_OK
 // DHTLIB_ERROR_CHECKSUM
 // DHTLIB_ERROR_TIMEOUT
-int dht::read(uint8_t pin)
+int DHTStable::read(uint8_t pin)
 {
     // READ VALUES
     if (_disableIRQ) noInterrupts();
@@ -102,15 +110,15 @@ int dht::read(uint8_t pin)
     if (_disableIRQ) interrupts();
     if (rv != DHTLIB_OK)
     {
-        humidity    = DHTLIB_INVALID_VALUE;  // NaN prefered?
-        temperature = DHTLIB_INVALID_VALUE;  // NaN prefered?
+        _humidity    = DHTLIB_INVALID_VALUE;  // NaN prefered?
+        _temperature = DHTLIB_INVALID_VALUE;  // NaN prefered?
         return rv; // propagate error value
     }
 
     // CONVERT AND STORE
-    humidity  = word(bits[0], bits[1]) * 0.1;
+    _humidity  = word(bits[0], bits[1]) * 0.1;
     int16_t t = bits[2] * 256 + bits[3];
-    temperature = t * 0.1;
+    _temperature = t * 0.1;
 
     // TEST CHECKSUM
     uint8_t sum = bits[0] + bits[1] + bits[2] + bits[3];
@@ -121,6 +129,7 @@ int dht::read(uint8_t pin)
     return DHTLIB_OK;
 }
 
+
 /////////////////////////////////////////////////////
 //
 // PRIVATE
@@ -129,7 +138,7 @@ int dht::read(uint8_t pin)
 // return values:
 // DHTLIB_OK
 // DHTLIB_ERROR_TIMEOUT
-int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
+int DHTStable::_readSensor(uint8_t pin, uint8_t wakeupDelay)
 {
     // INIT BUFFERVAR TO RECEIVE DATA
     uint8_t mask = 128;
@@ -189,6 +198,6 @@ int dht::_readSensor(uint8_t pin, uint8_t wakeupDelay)
 
     return DHTLIB_OK;
 }
-//
-// END OF FILE
-//
+
+
+// -- END OF FILE --
