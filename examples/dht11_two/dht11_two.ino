@@ -36,7 +36,7 @@ void loop()
 
 
   Serial.print("DHT B:\t");
-  int chk = DHT_B.read11(DHT11_PIN_B);
+  chk = DHT_B.read11(DHT11_PIN_B);
   Serial.print(DHT_B.getHumidity());
   Serial.print(",\t");
   Serial.println(DHT_B.getTemperature());
