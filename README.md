@@ -46,9 +46,41 @@ It is advised to upgrade to the DHTNEW library if one needs the new functionalit
 #include "DHTStable.h"
 ```
 
-See DHTStable.h file
 
-TODO
+
+#### Constructor
+
+- **dht()** Constructor
+
+
+#### Read functions per type
+
+- **int read11(uint8_t pin)**
+- **int read(uint8_t pin)**
+
+
+- **int read12(uint8_t pin)**
+- **int read21(uint8_t pin)**
+- **int read22(uint8_t pin)**
+- **int read33(uint8_t pin)**
+- **int read44(uint8_t pin)**
+- **int read2301(uint8_t pin)**
+- **int read2302(uint8_t pin)**
+- **int read2303(uint8_t pin)**
+- **int read2320(uint8_t pin)**
+- **int read2322(uint8_t pin)**
+
+
+- **float getHumidity()**
+- **float getTemperature()**
+
+
+#### Enable / disable interrupts
+
+- **bool getDisableIRQ()**
+- **void setDisableIRQ(bool b )**
+
+
 
 
 ## Operational
